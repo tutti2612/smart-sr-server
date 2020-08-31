@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: smart-sr_mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: smart-sr
+      MYSQL_PASSWORD: smart-sr
+      MYSQL_DATABASE: smart-sr
