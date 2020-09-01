@@ -12,4 +12,4 @@ test:
 
 .PHONY: db
 db:
-	docker-compose exec db mysql -usmart-sr -psmart-sr smart-sr
+	docker-compose exec db mysql -uroot -proot smart-sr
