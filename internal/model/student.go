@@ -6,7 +6,8 @@ import (
 
 type Student struct {
 	gorm.Model
-	Id        int `json:"id"`
 	Name      string `json:"name"`
-	Classroom string `json:"crassroom"`
+	Classroom string `json:"classroom"`
 }
+
+type Students []Student
