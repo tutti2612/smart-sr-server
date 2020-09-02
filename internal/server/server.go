@@ -31,5 +31,21 @@ func Run() {
 		c.JSON(http.StatusOK, students)
 	})
 
+	r.POST("/student", func(c *gin.Context) {
+		var student model.Student
+		c.BindJSON(&student)
+		db.Create(&student)
+		c.JSON(http.StatusCreated, student)
+	})
+
+	r.PUT("/student/:id", func(c *gin.Context) {
+	})
+
+	r.DELETE("/student/:id", func(c *gin.Context) {
+		id := c.Param("id")
+		db.Delete(&model.Student{}, id)
+		c.JSON(http.StatusNoContent, nil)
+	})
+
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
