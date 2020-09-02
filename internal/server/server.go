@@ -39,6 +39,13 @@ func Run() {
 	})
 
 	r.PUT("/student/:id", func(c *gin.Context) {
+		id := c.Param("id")
+		var student model.Student
+		db.First(&student, id)
+		var data model.Student
+		c.BindJSON(&data)
+		db.Model(&student).Updates(&data)
+		c.JSON(http.StatusOK, student)
 	})
 
 	r.DELETE("/student/:id", func(c *gin.Context) {
