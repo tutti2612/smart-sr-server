@@ -1,4 +1,4 @@
-package server
+package router
 
 import (
 	"net/http"
@@ -14,7 +14,7 @@ func Run() {
 
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
-			"message": "smart-sr-server",
+			"message": "smart-sr-router",
 		})
 	})
 

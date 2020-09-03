@@ -1,7 +1,7 @@
 package main
 
-import "github.com/tutti2612/smart-sr-server/internal/server"
+import "github.com/tutti2612/smart-sr-server/internal/router"
 
 func main() {
-	server.Run()
+	router.Run()
 }
