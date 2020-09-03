@@ -1,15 +1,13 @@
 package router
 
 import (
+	"github.com/tutti2612/smart-sr-server/internal/controllers"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/tutti2612/smart-sr-server/internal/database"
-	"github.com/tutti2612/smart-sr-server/internal/model"
 )
 
 func Run() {
-	db := database.Connection()
 	r := gin.Default()
 
 	r.GET("/", func(c *gin.Context) {
@@ -18,41 +16,11 @@ func Run() {
 		})
 	})
 
-	r.GET("/student/:id", func(c *gin.Context) {
-		id := c.Param("id")
-		var student model.Student
-		db.First(&student, id)
-		c.JSON(http.StatusOK, student)
-	})
-
-	r.GET("/students", func(c *gin.Context) {
-		var students model.Students
-		db.Find(&students)
-		c.JSON(http.StatusOK, students)
-	})
-
-	r.POST("/student", func(c *gin.Context) {
-		var student model.Student
-		c.BindJSON(&student)
-		db.Create(&student)
-		c.JSON(http.StatusCreated, student)
-	})
-
-	r.PUT("/student/:id", func(c *gin.Context) {
-		id := c.Param("id")
-		var student model.Student
-		db.First(&student, id)
-		var data model.Student
-		c.BindJSON(&data)
-		db.Model(&student).Updates(&data)
-		c.JSON(http.StatusOK, student)
-	})
-
-	r.DELETE("/student/:id", func(c *gin.Context) {
-		id := c.Param("id")
-		db.Delete(&model.Student{}, id)
-		c.JSON(http.StatusNoContent, nil)
-	})
+	r.GET("/students", controllers.Index)
+	r.GET("/student/:id", controllers.Show)
+	r.POST("/student", controllers.Create)
+	r.PUT("/student/:id", controllers.Update)
+	r.DELETE("/student/:id", controllers.Delete)
 
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
