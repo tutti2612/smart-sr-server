@@ -12,15 +12,16 @@ func Run() {
 
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
-			"message": "smart-sr-router",
+			"message": "smart-sr-server",
 		})
 	})
 
-	r.GET("/students", controllers.Index)
-	r.GET("/student/:id", controllers.Show)
-	r.POST("/student", controllers.Create)
-	r.PUT("/student/:id", controllers.Update)
-	r.DELETE("/student/:id", controllers.Delete)
+	var sc controllers.StudentController
+	r.GET("/students", sc.Index)
+	r.GET("/student/:id", sc.Show)
+	r.POST("/student", sc.Create)
+	r.PUT("/student/:id", sc.Update)
+	r.DELETE("/student/:id", sc.Delete)
 
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
