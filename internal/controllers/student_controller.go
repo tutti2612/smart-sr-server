@@ -9,14 +9,14 @@ import (
 
 type StudentController struct{}
 
-func (sc StudentController) Index(c *gin.Context) {
+func (sc *StudentController) Index(c *gin.Context) {
 	db := database.Connection()
 	var students models.Students
 	db.Find(&students)
 	c.JSON(http.StatusOK, students)
 }
 
-func (sc StudentController) Show(c *gin.Context) {
+func (sc *StudentController) Show(c *gin.Context) {
 	db := database.Connection()
 	id := c.Param("id")
 	var student models.Student
@@ -24,7 +24,7 @@ func (sc StudentController) Show(c *gin.Context) {
 	c.JSON(http.StatusOK, student)
 }
 
-func (sc StudentController) Create(c *gin.Context) {
+func (sc *StudentController) Create(c *gin.Context) {
 	db := database.Connection()
 	var student models.Student
 	c.BindJSON(&student)
@@ -32,7 +32,7 @@ func (sc StudentController) Create(c *gin.Context) {
 	c.JSON(http.StatusCreated, student)
 }
 
-func (sc StudentController) Update(c *gin.Context) {
+func (sc *StudentController) Update(c *gin.Context) {
 	db := database.Connection()
 	id := c.Param("id")
 	var student models.Student
@@ -43,7 +43,7 @@ func (sc StudentController) Update(c *gin.Context) {
 	c.JSON(http.StatusOK, student)
 }
 
-func (sc StudentController) Delete(c *gin.Context) {
+func (sc *StudentController) Delete(c *gin.Context) {
 	db := database.Connection()
 	id := c.Param("id")
 	db.Delete(&models.Student{}, id)
