@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/joho/godotenv"
 	"github.com/tutti2612/smart-sr-server/internal/router"
 	"log"
@@ -9,7 +8,12 @@ import (
 )
 
 func main() {
-	err := godotenv.Load(fmt.Sprintf("%s.env", os.Getenv("GO_ENV")))
+	env := os.Getenv("GO_ENV")
+	envFile := ".env"
+	if env != "" {
+		envFile += "." + env
+	}
+	err := godotenv.Load(envFile)
 	if err != nil {
 		log.Fatal(err)
 	}
