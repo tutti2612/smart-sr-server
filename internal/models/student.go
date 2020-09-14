@@ -17,7 +17,7 @@ type Student struct {
 	Age       uint8      `json:"age"`
 	Tel       string     `json:"tel" gorm:"size:255"`
 	Email     string     `json:"email" gorm:"unique"`
-	Birthday  *time.Time `json:"birthday"`
+	Birthday  *time.Time `json:"birthday" gorm:"type:date"`
 }
 
 type Students []Student
