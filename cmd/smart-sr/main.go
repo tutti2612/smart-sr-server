@@ -7,16 +7,17 @@ import (
 	"os"
 )
 
-func main() {
-	env := os.Getenv("GO_ENV")
+func init() {
 	envFile := ".env"
-	if env != "" {
+	if env := os.Getenv("GO_ENV"); env != "" {
 		envFile += "." + env
 	}
-	err := godotenv.Load(envFile)
-	if err != nil {
+
+	if err := godotenv.Load(envFile); err != nil {
 		log.Fatal(err)
 	}
+}
 
+func main() {
 	router.Run()
 }
