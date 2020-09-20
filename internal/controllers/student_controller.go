@@ -12,7 +12,16 @@ type StudentController struct{}
 func (sc *StudentController) Index(c *gin.Context) {
 	db := database.Connection()
 	var students models.Students
-	db.Find(&students)
+
+	name := c.Query("name")
+	classroom := c.Query("classroom")
+
+	tx := db.Where(models.Student{Classroom: classroom})
+	if name != "" {
+		tx.Where("name LIKE ?", "%"+name+"%")
+	}
+	tx.Find(&students)
+
 	c.JSON(http.StatusOK, students)
 }
 
