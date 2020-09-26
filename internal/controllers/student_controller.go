@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/tutti2612/smart-sr-server/internal/database"
 	"github.com/tutti2612/smart-sr-server/internal/models"
+	"log"
 	"net/http"
 )
 
@@ -34,21 +35,39 @@ func (sc *StudentController) Show(c *gin.Context) {
 }
 
 func (sc *StudentController) Create(c *gin.Context) {
+	//TODO バリデーションチェック
 	db := database.Connection()
 	var student models.Student
-	c.BindJSON(&student)
-	db.Create(&student)
+	if err := c.BindJSON(&student); err != nil {
+		log.Print(err)
+		c.JSON(http.StatusBadRequest, err)
+		return
+	}
+	if result := db.Create(&student); result.Error != nil {
+		log.Print(result.Error)
+		c.JSON(http.StatusInternalServerError, result.Error)
+		return
+	}
 	c.JSON(http.StatusCreated, student)
 }
 
 func (sc *StudentController) Update(c *gin.Context) {
+	//TODO バリデーションチェック
 	db := database.Connection()
 	id := c.Param("id")
 	var student models.Student
 	db.First(&student, id)
 	var data models.Student
-	c.BindJSON(&data)
-	db.Model(&student).Updates(&data)
+	if err := c.BindJSON(&data); err != nil {
+		log.Print(err)
+		c.JSON(http.StatusBadRequest, err)
+		return
+	}
+	if result := db.Model(&student).Updates(&data); result.Error != nil {
+		log.Print(result.Error)
+		c.JSON(http.StatusInternalServerError, result.Error)
+		return
+	}
 	c.JSON(http.StatusOK, student)
 }
 
